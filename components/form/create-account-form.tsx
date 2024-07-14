@@ -11,7 +11,7 @@ import {Button} from "@/components/ui/button";
 import PinInput from "react-pin-input"
 import axios from "axios";
 import {AccountProps, AccountResponse} from "@/types";
-// import {toast} from "@/components/ui/use-toast";
+import {toast} from "@/components/ui/use-toast";
 
 interface Props{
     uid: string
@@ -96,7 +96,7 @@ const CreateAccountForm = ({uid, setOpen,setAccounts, accounts}: Props) => {
                                         secret
                                         disabled={isSubmitting}
                                         secretDelay={100}
-                                        // onChange={(value) => field.onChange(value)}
+                                        onChange={(value) => field.onChange(value)}
                                         type={"numeric"}
                                         inputMode={"number"}
                                         style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "10px" }}
