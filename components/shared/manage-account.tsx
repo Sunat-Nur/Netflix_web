@@ -11,7 +11,7 @@ import {AccountProps, AccountResponse} from "@/types";
 import axios from "axios";
 import {useSession} from "next-auth/react";
 import {toast} from "@/components/ui/use-toast";
-// import Loader from "@/components/shared/loader";
+import Loader from "@/components/shared/loader";
 
 const ManageAccount = () => {
     const [isDelete, setIsDelete] = useState<boolean>(false)
@@ -71,7 +71,7 @@ const ManageAccount = () => {
         }
     }
 
-    // if (isLoading) return <Loader/>
+    if (isLoading) return <Loader/>
 
     return (
         <div className={"min-h-screen flex justify-center flex-col items-center relative"}>
