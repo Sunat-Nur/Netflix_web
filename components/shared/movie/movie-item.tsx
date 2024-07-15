@@ -1,7 +1,6 @@
 "use client"
-
 import {FavouriteProps, MovieProps} from "@/types";
-// import {motion} from "framer-motion";
+import {motion} from "framer-motion";
 import Image from "next/image";
 import {CheckIcon, ChevronDown, Loader2, MinusIcon, PlusIcon} from "lucide-react";
 import {useGlobalContext} from "@/context";

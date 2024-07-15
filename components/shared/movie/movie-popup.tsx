@@ -5,7 +5,7 @@ import {useGlobalContext} from "@/context";
 import {useEffect, useState} from "react";
 import {getMovieDetails, getSimilarMovies} from "@/lib/api";
 import {MovieDetailsProps, MovieProps} from "@/types";
-import ReactStars from 'react-stars'
+import ReactStars from "react-stars"
 import MovieItem from "@/components/shared/movie/movie-item";
 import ReactPlayer from "react-player";
 import {Skeleton} from "@/components/ui/skeleton";
