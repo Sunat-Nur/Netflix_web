@@ -1,68 +1,69 @@
 "use client";
 
 import Image from "next/image";
-import {menuItems} from "@/constants";
-import {AiOutlineSearch} from "react-icons/ai";
-import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
-import {useGlobalContext} from "@/context";
-import {signOut, useSession} from "next-auth/react";
-import React, {useEffect, useState} from "react";
+import { menuItems } from "@/constants";
+import { AiOutlineSearch } from "react-icons/ai";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { useGlobalContext } from "@/context";
+import { signOut, useSession } from "next-auth/react";
+import { useEffect, useState } from "react";
 import SearchBar from "@/components/shared/navber/search-bar";
-import {cn} from "@/lib/utils";
-import {useRouter} from "next/navigation";
+import { cn } from "@/lib/utils";
+import { useRouter } from "next/navigation";
 import MoviePopup from "@/components/shared/movie/movie-popup";
 import axios from "axios";
-import {AccountProps, AccountResponse} from "@/types";
-import {toast} from "@/components/ui/use-toast";
-import {Loader2} from "lucide-react";
-import {Skeleton} from "@/components/ui/skeleton";
+import { AccountProps, AccountResponse } from "@/types";
+import { toast } from "@/components/ui/use-toast";
+import { Skeleton } from "@/components/ui/skeleton";
 import Link from "next/link";
 
 const Navbar = () => {
-    const [showSearchBar, setShowSearchBar] = useState(false)
-    const [isScrolled, setIsScrolled] = useState(false)
-    const [accounts, setAccounts] = useState<AccountProps[]>([])
+    const [showSearchBar, setShowSearchBar] = useState(false);
+    const [isScrolled, setIsScrolled] = useState(false);
+    const [accounts, setAccounts] = useState<AccountProps[]>([]);
     const [isLoading, setIsLoading] = useState(false);
 
-    const {account, setAccount, setPageLoader} = useGlobalContext()
-    const {data: session}: any = useSession()
-    const router = useRouter()
+    const { account, setAccount, setPageLoader } = useGlobalContext();
+    const { data: session }: any = useSession();
+    const router = useRouter();
 
     useEffect(() => {
         const getAllAccounts = async () => {
-            setIsLoading(true)
+            setIsLoading(true);
             try {
-                const {data} = await axios.get<AccountResponse>(`/api/account?uid=${session.user.uid}`)
+                const { data } = await axios.get<AccountResponse>(`/api/account?uid=${session.user.uid}`);
                 data.success && setAccounts(data.data as AccountProps[]);
             } catch (e) {
                 return toast({
                     title: "Error",
                     description: "An error occurred while fetching your accounts",
-                    variant: "destructive"
-                })
+                    variant: "destructive",
+                });
             } finally {
-                setIsLoading(false)
+                setIsLoading(false);
             }
-        }
+        };
 
         const handleScroll = () => {
             if (window.scrollY > 100) {
-                setIsScrolled(true)
+                setIsScrolled(true);
             } else {
-                setIsScrolled(false)
+                setIsScrolled(false);
             }
-        }
+        };
 
-        getAllAccounts()
-        window.addEventListener("scroll", handleScroll)
-        return () => window.removeEventListener("scroll", handleScroll)
+        getAllAccounts();
+
+        window.addEventListener("scroll", handleScroll);
+
+        return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
     const logout = () => {
         sessionStorage.removeItem("account");
-        signOut()
-        setAccount(null)
-    }
+        signOut();
+        setAccount(null);
+    };
 
     return (
         <div className={"relative"}>
@@ -75,16 +76,16 @@ const Navbar = () => {
                         alt="NETFLIX"
                         className="cursor-pointer object-contain"
                         onClick={() => {
-                            router.push("/browse")
-                            setPageLoader(true)
+                            router.push("/browse");
+                            setPageLoader(true);
                         }}
                     />
                     <ul className={"hidden md:space-x-4 md:flex cursor-pointer"}>
                         {menuItems.map((item) => (
                             <li
                                 onClick={() => {
-                                    router.push(item.path)
-                                    setPageLoader(true)
+                                    router.push(item.path);
+                                    setPageLoader(true);
                                 }}
                                 key={item.path}
                                 className={"cursor-pointer text-[16px] font-light text-[#e5e5e5] transition duration-[.4s] hover:text-[#b3b3b3]"}
@@ -102,7 +103,7 @@ const Navbar = () => {
                         <SearchBar setShowSearchBar={setShowSearchBar} />
                     ) : (
                         <AiOutlineSearch
-                            onClick={() => setShowSearchBar(prev => !prev)} // prev esk holatiga qaytarish uchun
+                            onClick={() => setShowSearchBar((prev) => !prev)}
                             className={"hidden sm:inline sm:w-6 sm:h-6 cursor-pointer"}
                         />
                     )}
@@ -122,17 +123,18 @@ const Navbar = () => {
                             {isLoading ? (
                                 <div className={"flex flex-col space-y-4"}>
                                     {[1, 2].map((_, i) => (
-                                        <Skeleton className={"w-full h-14"} />
+                                        <Skeleton key={i} className={"w-full h-14"} />
                                     ))}
                                 </div>
                             ) : (
-                                accounts && accounts.map(account => (
+                                accounts &&
+                                accounts.map((account) => (
                                     <div
                                         className={"cursor-pointer flex gap-3 h-14 hover:bg-slate-800 rounded-md items-center px-4 py-2"}
                                         key={account._id}
                                         onClick={() => {
-                                            setAccount(null)
-                                            sessionStorage.removeItem("account")
+                                            setAccount(null);
+                                            sessionStorage.removeItem("account");
                                         }}
                                     >
                                         <img

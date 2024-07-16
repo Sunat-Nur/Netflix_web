@@ -29,7 +29,6 @@ const Page = () => {
                     getMoviesByGenre("tv", 10751),
                     getMoviesByGenre("tv", 10768),
                 ])
-
                 const allResult: MovieDataProps[] = [
                     {title: "Action", data: action},
                     {title: "Animation", data: animation},
